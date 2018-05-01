@@ -19,7 +19,9 @@ import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
 import com.codename1.ui.TextField;
+import com.codename1.ui.events.ActionEvent;
 import static com.codename1.ui.events.ActionEvent.Type.Log;
+import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.geom.Rectangle;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
@@ -38,6 +40,7 @@ public class GoogleMaps
 {
     Coord LL;
     final MapContainer cnt;
+    String[] Adds;
     
     public String[] searchLocations(String text) 
     {
@@ -81,12 +84,11 @@ public class GoogleMaps
         r.addArgument("placeid", PI);
         NetworkManager.getInstance().addToQueueAndWait(r);
         Map<String,Object> result;
-            
         result = new JSONParser().parseJSON(new InputStreamReader(new ByteArrayInputStream(r.getResponseData()), "UTF-8"));
-        
         double[] resa = Result.fromContent(result).getAsDoubleArray("//geometry/location/lat");
         System.out.println(Result.fromContent(result).get("//geometry"));
         double[] reso = Result.fromContent(result).getAsDoubleArray("//geometry/location/lng");
+        Adds = Result.fromContent(result).getAsStringArray("//formatted_address");
         return new Coord(resa[0], reso[0]);
         }
         catch (IOException E)
@@ -96,34 +98,12 @@ public class GoogleMaps
         return null;
     }
     
-    /*public static Coord SetPosition()
+    public GoogleMaps(Coord LL)
     {
-        try
-        {
-        ConnectionRequest r = new ConnectionRequest();
-        r.setPost(true);
-        r.setUrl("https://www.googleapis.com/geolocation/v1/geolocate");
-        r.addArgument("key", "AIzaSyCemOIbHhipKFleIK8g1Jb6H-isTSbFFbI");
-        NetworkManager.getInstance().addToQueueAndWait(r);
-        Map<String,Object> result;
-        result = new JSONParser().parseJSON(new InputStreamReader(new ByteArrayInputStream(r.getResponseData()), "UTF-8"));
-        double[] resa = Result.fromContent(result).getAsDoubleArray("//lat");
-        System.out.println(result);
-        double[] reso = Result.fromContent(result).getAsDoubleArray("//lng");
-        return new Coord(resa[0], reso[0]);
-        }
-        catch (IOException E)
-        {
-            System.out.println(E);
-        }
-        return null;
-    }*/
-    
-    public GoogleMaps()
-    {
-        Form hi = new Form("Native Maps Test");
+        Form hi = new Form("Google Maps");
         hi.setLayout(new BorderLayout());
         cnt = new MapContainer("AIzaSyCeIRbinQ5bJ2h_Qk9i558DRTg9PranZQ0");
+        cnt.setCameraPosition(LL);
         final DefaultListModel<String> options = new DefaultListModel<>();
         AutoCompleteTextField ac = new AutoCompleteTextField(options)
         {
@@ -144,7 +124,7 @@ public class GoogleMaps
          int i = 1;
          for(String s : l) 
          {
-             if (i == 3)
+             if (i == 2)
              {
                  break;
              }
@@ -155,95 +135,39 @@ public class GoogleMaps
         }
     };
     ac.setMinimumElementsShownInPopup(3);
+    ac.setHint("Précisez Votre Adresse ...");
     Style S = new Style();
     S.setBgTransparency(0xff);
     S.setBorder(Border.createLineBorder(1));
     S.setPaddingBottom(15);
     ac.setUnselectedStyle(S); ac.setSelectedStyle(S);
-    Location position;
-        try 
-        {
-            position = LocationManager.getLocationManager().getCurrentLocation();
-            double La = position.getLatitude();
-            double Lo = position.getLongitude();
-            System.out.println(La + " " + Lo);
-        } 
-        catch (IOException ex) 
-        {
-            System.out.println(ex);
-        }
-    
-    //cnt.setCameraPosition(new Coord(-33.867, 151.206));
-        /*Button btnMoveCamera = new Button("Move Camera");
-        btnMoveCamera.addActionListener(e->{
-            cnt.setCameraPosition(new Coord(-33.867, 151.206));
+    Button BO = new Button("OK");
+    BO.addActionListener(new ActionListener() 
+    {
+            @Override
+            public void actionPerformed(ActionEvent evt) 
+            {
+                UneDemande UD = new UneDemande();
+                UD.getTF2().setText(Adds[0]);
+                UD.getF().show();
+            }
         });
-        
-        Style s = new Style();
-        s.setFgColor(0xff0000);
-        s.setBgTransparency(0);
-        FontImage markerImg = FontImage.createMaterial(FontImage.MATERIAL_PLACE, s, Display.getInstance().convertToPixels(3));
-
-        Button btnAddMarker = new Button("Add Marker");
-        btnAddMarker.addActionListener(e->
-        {
-            cnt.setCameraPosition(new Coord(41.889, -87.622));
-            cnt.addMarker(
-                    EncodedImage.createFromImage(markerImg, false),
-                    cnt.getCameraPosition(),
-                    "Hi marker",
-                    "Optional long description",
-                     evt -> 
-                     {
-                             ToastBar.showMessage("You clicked the marker", FontImage.MATERIAL_PLACE);
-                     }
-            );
+    FontImage icon = FontImage.createMaterial(FontImage.MATERIAL_ARROW_BACK, "TitleCommand", 3);
+    hi.getToolbar().addCommandToLeftBar("", icon, new ActionListener() 
+    {
+            @Override
+            public void actionPerformed(ActionEvent evt) 
+            {
+                UneDemande UD = new UneDemande();
+                UD.getF().show();
+            }
         });
-
-        Button btnAddPath = new Button("Add Path");
-        btnAddPath.addActionListener(e->{
-
-            cnt.addPath(
-                    cnt.getCameraPosition(),
-                    new Coord(-33.866, 151.195), // Sydney
-                    new Coord(-18.142, 178.431),  // Fiji
-                    new Coord(21.291, -157.821),  // Hawaii
-                    new Coord(37.423, -122.091)  // Mountain View
-            );
-        });
-
-        Button btnClearAll = new Button("Clear All");
-        btnClearAll.addActionListener(e->{
-            cnt.clearMapLayers();
-        });
-
-        cnt.addTapListener(e->{
-            TextField enterName = new TextField();
-            Container wrapper = BoxLayout.encloseY(new Label("Name:"), enterName);
-            InteractionDialog dlg = new InteractionDialog("Add Marker");
-            dlg.getContentPane().add(wrapper);
-            enterName.setDoneListener(e2->{
-                String txt = enterName.getText();
-                cnt.addMarker(
-                        EncodedImage.createFromImage(markerImg, false),
-                        cnt.getCoordAtPosition(e.getX(), e.getY()),
-                        enterName.getText(),
-                        "",
-                        e3->{
-                                ToastBar.showMessage("You clicked "+txt, FontImage.MATERIAL_PLACE);
-                        }
-                );
-                dlg.dispose();
-            });
-            dlg.showPopupDialog(new Rectangle(e.getX(), e.getY(), 10, 10));
-            enterName.startEditingAsync();
-        });*/
-
-        Container root = LayeredLayout.encloseIn(
+    Container CN = new Container(new BoxLayout(BoxLayout.X_AXIS));
+    CN.add(ac).add(BO);
+    Container root = LayeredLayout.encloseIn(
                 BorderLayout.center(cnt),
-                BorderLayout.north(ac));
-
-        hi.add(BorderLayout.CENTER, root);
-        hi.show();
+                BorderLayout.north(CN));
+    hi.add(BorderLayout.CENTER, root);
+    hi.show();
     }
 }
