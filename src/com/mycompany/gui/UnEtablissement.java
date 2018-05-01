@@ -6,8 +6,11 @@ import com.codename1.ui.Container;
 import com.codename1.ui.Font;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
+import com.codename1.ui.events.ActionEvent;
+import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
+import com.mycompany.Services.EtablissementService;
 import entities.Etablissement;
 
 public class UnEtablissement 
@@ -22,6 +25,26 @@ public class UnEtablissement
         F = new Form(E.getNom(),new BoxLayout(BoxLayout.Y_AXIS));
         Hamburger H = new Hamburger();
         H.CreateHams(F);
+        F.getToolbar().addCommandToOverflowMenu("Modifier", null, new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent evt) 
+            {
+                ModificationE ME = new ModificationE(E);
+                ME.getF().show();
+            }
+        });
+        F.getToolbar().addCommandToOverflowMenu("Supprimer", null, new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent evt) 
+            {
+                EtablissementService ES = new EtablissementService();
+                ES.SupprimerEtablissement(E);
+                HomeForm HF = new HomeForm();
+                HF.getF().show();
+            }
+        });
         Container C0 = new Container(new FlowLayout(Component.CENTER, Component.CENTER));
         Label L0 = new Label(E.getNom());
         C0.add(L0);
@@ -31,19 +54,19 @@ public class UnEtablissement
         SpanLabel L4 = new SpanLabel("Description : " + L3.getText());
         Label L5 = new Label(E.getType());
         Label L6 = new Label();
-        if (E.getType_resto() != null)
+        if (E.getType().equals("Restaurants/Cafés"))
         {
             L6.setText(E.getType_resto());
         }
-        if (E.getType_shops() != null)
+        if (E.getType().equals("Boutiques"))
         {
             L6.setText(E.getType_shops());
         }
-        if (E.getType_loisirs() != null)
+        if (E.getType().equals("Autres Etablissements"))
         {
             L6.setText(E.getType_loisirs());
         }
-        if (E.getNbrStars() != null)
+        if (E.getType().equals("Hotels"))
         {
             L6.setText(E.getNbrStars());
         }

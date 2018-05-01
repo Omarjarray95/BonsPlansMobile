@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<resource majorVersion="1" minorVersion="7" useXmlUI="false">
+<resource majorVersion="1" minorVersion="9" useXmlUI="false">
     <image name="android-icon.png" type="multi"  />
     <image name="apple-icon.png" type="multi"  />
     <image name="back-command.png" type="multi"  />
@@ -168,9 +168,9 @@
         <val key="CalendarDateLabel.fgColor" value="ffffff" />
         <font key="CalendarDateLabel.font" type="ttf" face="0" style="1" size="16" name="native:MainThin" family="native:MainThin" sizeSettings="3" actualSize="4.0" />
         <val key="CalendarDay.align" value="4" />
-        <border key="CalendarDay.border" type="line" thickness="1" color="13421772" />
+        <border key="CalendarDay.border" type="line" millimeters="false" thickness="1.0" color="13421772" />
         <val key="CalendarDay.dis#align" value="4" />
-        <border key="CalendarDay.dis#border" type="line" thickness="1" color="13421772" />
+        <border key="CalendarDay.dis#border" type="line" millimeters="false" thickness="1.0" color="13421772" />
         <val key="CalendarDay.dis#fgColor" value="999999" />
         <font key="CalendarDay.dis#font" type="system" face="0" style="0" size="0" />
         <val key="CalendarDay.dis#margin" value="0,0,0,0" />
@@ -179,13 +179,13 @@
         <font key="CalendarDay.font" type="ttf" face="0" style="0" size="0" name="native:MainThin" family="native:MainThin" sizeSettings="3" actualSize="3.0" />
         <val key="CalendarDay.margin" value="0,0,0,0" />
         <val key="CalendarDay.press#align" value="4" />
-        <border key="CalendarDay.press#border" type="line" thickness="1" color="13421772" />
+        <border key="CalendarDay.press#border" type="line" millimeters="false" thickness="1.0" color="13421772" />
         <val key="CalendarDay.press#fgColor" value="0" />
         <font key="CalendarDay.press#font" type="ttf" face="0" style="0" size="0" name="native:MainThin" family="native:MainThin" sizeSettings="3" actualSize="3.0" />
         <val key="CalendarDay.press#margin" value="0,0,0,0" />
         <val key="CalendarDay.press#transparency" value="0" />
         <val key="CalendarDay.sel#align" value="4" />
-        <border key="CalendarDay.sel#border" type="line" thickness="1" color="13421772" />
+        <border key="CalendarDay.sel#border" type="line" millimeters="false" thickness="1.0" color="13421772" />
         <val key="CalendarDay.sel#fgColor" value="0" />
         <font key="CalendarDay.sel#font" type="ttf" face="0" style="0" size="0" name="native:MainThin" family="native:MainThin" sizeSettings="3" actualSize="3.0" />
         <val key="CalendarDay.sel#margin" value="0,0,0,0" />
@@ -195,13 +195,13 @@
         <val key="CalendarDayArea.padding" value="0,0,0,0" />
         <val key="CalendarSelectedDay.align" value="4" />
         <val key="CalendarSelectedDay.bgColor" value="3399ff" />
-        <border key="CalendarSelectedDay.border" type="line" thickness="1" color="13421772" />
+        <border key="CalendarSelectedDay.border" type="line" millimeters="false" thickness="1.0" color="13421772" />
         <val key="CalendarSelectedDay.fgColor" value="ffffff" />
         <font key="CalendarSelectedDay.font" type="ttf" face="0" style="0" size="0" name="native:MainRegular" family="native:MainRegular" sizeSettings="3" actualSize="3.0" />
         <val key="CalendarSelectedDay.margin" value="0,0,0,0" />
         <val key="CalendarSelectedDay.press#align" value="4" />
         <val key="CalendarSelectedDay.press#bgColor" value="3399ff" />
-        <border key="CalendarSelectedDay.press#border" type="line" thickness="1" color="13421772" />
+        <border key="CalendarSelectedDay.press#border" type="line" millimeters="false" thickness="1.0" color="13421772" />
         <val key="CalendarSelectedDay.press#fgColor" value="999999" />
         <font key="CalendarSelectedDay.press#font" type="ttf" face="0" style="0" size="0" name="native:MainRegular" family="native:MainRegular" sizeSettings="3" actualSize="3.0" />
         <val key="CalendarSelectedDay.press#margin" value="0,0,0,0" />
@@ -631,5 +631,4 @@
         <val key="SideCommand.sel#bgType" value="0" />
         <border key="SideCommand.sel#border" type="empty" />
         <val key="SideCommand.sel#fgColor" value="ffffff" />
-        <font key="SideCommand.sel#font" type="ttf" face="0" style="1" size="16" name="native:MainRegular" family="native:MainRegular" sizeSettings="3" actualSize="3.0" />
-        <val key="SideCommand.sel#marUnit" value="2,2,2,2" />
+        <font key="SideCommand.sel#font" type="ttf" face="0" style="1" size="16" name="native:MainReg

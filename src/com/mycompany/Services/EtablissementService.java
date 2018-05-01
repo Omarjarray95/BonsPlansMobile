@@ -11,6 +11,8 @@ import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.ui.events.ActionListener;
+import com.codename1.ui.html.HTMLUtils;
+import com.codename1.util.StringUtil;
 import entities.Etablissement;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -94,6 +96,63 @@ public class EtablissementService
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
         return ListeEtablissements;
+    }
+    
+    public void ModifierEtablissement(Etablissement E) 
+    {
+        ConnectionRequest con = new ConnectionRequest();
+        String D0 = "";
+        if (E.getType_resto() != null)
+        {
+            D0 = E.getType_resto();
+        }
+        if (E.getType_shops() != null)
+        {
+            D0 = E.getType_shops();
+        }
+        if (E.getType_loisirs() != null)
+        {
+            D0 = E.getType_loisirs();
+        }
+        if (E.getNbrStars() != null)
+        {
+            D0 = E.getNbrStars();
+        }
+        String Desc = StringUtil.replaceAll(E.getDescription(), "à", "a");
+        String Nom = StringUtil.replaceAll(E.getNom(), "à", "a");
+        String D0A = StringUtil.replaceAll(D0, "à", "a");
+        String Adresse = StringUtil.replaceAll(E.getAdresse(), "à", "a");
+        String Site = StringUtil.replaceAll(E.getUrl(), "à", "a");
+        String DescA = StringUtil.replaceAll(Desc, "&", "And");
+        String NomA = StringUtil.replaceAll(Nom, "&", "And");
+        String D0AA = StringUtil.replaceAll(D0A, "&", "And");
+        String AdresseA = StringUtil.replaceAll(Adresse, "&", "And");
+        String SiteA = StringUtil.replaceAll(Site, "&", "And");
+        String Url = "http://localhost/Bons_Plans/web/app_dev.php/BonsPlans/miews?nom=" + NomA + 
+        "&type=" + E.getType() + "&type1=" + D0AA + "&adresse=" + AdresseA + "&description=" + DescA +
+        "&horaireouverture=" + E.getHoraire_ouverture() + "&horairefermeture=" + E.getHoraire_fermeture() + 
+        "&numero=" + Integer.toString(E.getNumtel()) + "&image=" + E.getImage() + "&url=" + SiteA + "&budgetmoyen=" +
+        Integer.toString(E.getBudgetmoyen()) + "&id=" + Integer.toString(E.getId());
+        con.setUrl(Url);
+        System.out.println("tt");
+        con.addResponseListener((e) -> 
+        {
+            String str = new String(con.getResponseData());
+            System.out.println(str);
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+    }
+    
+    public void SupprimerEtablissement(Etablissement E)
+    {
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/Bons_Plans/web/app_dev.php/BonsPlans/sews/" + Integer.toString(E.getId())); 
+        con.addResponseListener((e) -> 
+        {
+            String str = new String(con.getResponseData());
+            System.out.println(str);
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
     }
     
 }

@@ -1,9 +1,9 @@
 package com.mycompany.gui;
 
-import com.codename1.components.ImageViewer;
 import com.codename1.components.InteractionDialog;
 import com.codename1.io.FileSystemStorage;
 import com.codename1.io.Util;
+import com.codename1.maps.Coord;
 import com.codename1.ui.Button;
 import com.codename1.ui.ComboBox;
 import com.codename1.ui.Component;
@@ -29,6 +29,7 @@ public class UneDemande
 {
     Form F;
     TextField TF6 = new TextField();
+    private TextField TF2 = new TextField();
     
     public UneDemande()
     {
@@ -69,9 +70,20 @@ public class UneDemande
         });
         C1.add(L1).add(CB0).add(CB1).add(TF1);
         Container C2 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+        Container C22 = new Container(new BoxLayout(BoxLayout.X_AXIS));
         Label L2 = new Label("Adresse : ");
-        TextField TF2 = new TextField();
-        C2.add(L2).add(TF2);
+        Button B2 = new Button("Utiliser Google Maps");
+        
+        C22.add(L2).add(B2);
+        C2.add(C22).add(TF2);
+        B2.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent evt) 
+            {
+                GoogleMaps M = new GoogleMaps(new Coord(36.8386651, 10.0304474));
+            }
+        });
         Container C3 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         Label L3 = new Label("Description : ");
         TextArea TA3 = new TextArea(15, 15);
@@ -203,7 +215,7 @@ public class UneDemande
                 String N3 = null;
                 if (!TF2.getText().equals(""))
                 {
-                N3 = TF2.getText();
+                N3 = getTF2().getText();
                 }
                 else
                 {
@@ -469,5 +481,21 @@ public class UneDemande
     public void setF(Form F) 
     {
         this.F = F;
+    }
+
+    /**
+     * @return the TF2
+     */
+    public TextField getTF2() 
+    {
+        return TF2;
+    }
+
+    /**
+     * @param TF2 the TF2 to set
+     */
+    public void setTF2(TextField TF2) 
+    {
+        this.TF2 = TF2;
     }
 }
