@@ -25,6 +25,7 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
+import com.mycompany.gui.HomeFormUser;
 import java.io.IOException;
 
 public class MyApplication 
@@ -45,7 +46,9 @@ public class MyApplication
     
     public void start() 
     {
-        HomeForm h = new HomeForm();
+        //HomeForm h = new HomeForm();
+        //h.getF().show();
+    HomeFormUser h = new HomeFormUser();
         h.getF().show();
     }
 

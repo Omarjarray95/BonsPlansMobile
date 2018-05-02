@@ -14,6 +14,7 @@ import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.html.HTMLUtils;
 import com.codename1.util.StringUtil;
 import entities.Etablissement;
+import entities.Reclamation;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +81,40 @@ public class EtablissementService
         }
         System.out.println(LsE);
         return LsE;
+    }
+    
+   
+    ArrayList<Etablissement> listEtab = new ArrayList<>();
+    
+    public ArrayList<Etablissement> getListEtab(){       
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/donia/web/app_dev.php/BonsPlans/EtabsWebSer");  
+        con.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                EtablissementService ser = new EtablissementService();
+                listEtab = ser.getEtablissements(new String(con.getResponseData()));
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return listEtab;
+    }
+    
+    
+    public Etablissement getEtablissementsParNom(String nom)
+    {       
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/donia/web/app_dev.php/BonsPlans/EtabRechWebSer/" + nom);  
+        con.addResponseListener(new ActionListener<NetworkEvent>() 
+        {
+            @Override
+            public void actionPerformed(NetworkEvent evt) 
+            {
+                ListeEtablissements = getEtablissements(new String(con.getResponseData()));
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return ListeEtablissements.get(0);
     }
     
     public ArrayList<Etablissement> getEtablissementsParType(String type)
