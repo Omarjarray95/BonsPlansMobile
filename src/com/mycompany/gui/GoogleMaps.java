@@ -9,9 +9,11 @@ import com.codename1.io.NetworkManager;
 import com.codename1.location.Location;
 import com.codename1.location.LocationManager;
 import com.codename1.maps.Coord;
+import com.codename1.maps.MapListener;
 import com.codename1.processing.Result;
 import com.codename1.ui.AutoCompleteTextField;
 import com.codename1.ui.Button;
+import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
@@ -103,7 +105,6 @@ public class GoogleMaps
         Form hi = new Form("Google Maps");
         hi.setLayout(new BorderLayout());
         cnt = new MapContainer("AIzaSyCeIRbinQ5bJ2h_Qk9i558DRTg9PranZQ0");
-        cnt.setCameraPosition(LL);
         final DefaultListModel<String> options = new DefaultListModel<>();
         AutoCompleteTextField ac = new AutoCompleteTextField(options)
         {
@@ -112,6 +113,7 @@ public class GoogleMaps
         {
          if(text.length() == 0) 
          {
+             cnt.zoom(LL, 10);
              return false;
          }
          String[] l = searchLocations(text);
@@ -141,6 +143,15 @@ public class GoogleMaps
     S.setBorder(Border.createLineBorder(1));
     S.setPaddingBottom(15);
     ac.setUnselectedStyle(S); ac.setSelectedStyle(S);
+    ac.addPointerPressedListener(new ActionListener() 
+    {
+            @Override
+            public void actionPerformed(ActionEvent evt) 
+            {
+                Coord T = new Coord(36.8386651, 10.0304474);
+                cnt.zoom(T, 10);
+            }
+        });
     Button BO = new Button("OK");
     BO.addActionListener(new ActionListener() 
     {
@@ -148,7 +159,14 @@ public class GoogleMaps
             public void actionPerformed(ActionEvent evt) 
             {
                 UneDemande UD = new UneDemande();
-                UD.getTF2().setText(Adds[0]);
+                if (Adds != null)
+                {
+                    UD.getTF2().setText(Adds[0]);
+                }
+                else
+                {
+                    UD.getTF2().setText("");
+                }
                 UD.getF().show();
             }
         });

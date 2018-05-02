@@ -1,8 +1,18 @@
 package com.mycompany.Services;
 
+import com.codename1.io.CharArrayReader;
 import com.codename1.io.ConnectionRequest;
+import com.codename1.io.JSONParser;
+import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
+import com.codename1.ui.events.ActionListener;
 import entities.Demande;
+import entities.Etablissement;
+import entities.Tag;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class DemandeService 
 {
@@ -40,4 +50,7 @@ public class DemandeService
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
     }
+    
+    
+    
 }

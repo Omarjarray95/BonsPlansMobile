@@ -14,7 +14,11 @@ import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.html.HTMLUtils;
 import com.codename1.util.StringUtil;
 import entities.Etablissement;
+
 import entities.Reclamation;
+
+import entities.Tag;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +75,15 @@ public class EtablissementService
                 E.setUrl(obj.get("URL").toString());
                 E.setBudgetmoyen(Integer.parseInt(obj.get("budgetmoyen").toString()));
                 System.out.println(E);
+                List<Map<String, Object>> Tag = (List<Map<String, Object>>) obj.get("tags");
+                for (Map<String, Object> TO : Tag)
+                {
+                Tag T = new Tag();
+                float idt = Float.parseFloat(TO.get("id").toString());
+                T.setId((int) id);
+                T.setNom(TO.get("name").toString());
+                E.getTag().add(T);
+                }
                 LsE.add(E);
             }
 
@@ -188,6 +201,22 @@ public class EtablissementService
             System.out.println(str);
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
+    }
+    
+    public ArrayList<Etablissement> getEtablissementsParTags(String type)
+    {       
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/Bons_Plans/web/app_dev.php/BonsPlans/rptws/" + type);  
+        con.addResponseListener(new ActionListener<NetworkEvent>() 
+        {
+            @Override
+            public void actionPerformed(NetworkEvent evt) 
+            {
+                ListeEtablissements = getEtablissements(new String(con.getResponseData()));
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return ListeEtablissements;
     }
     
 }

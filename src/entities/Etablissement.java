@@ -1,14 +1,13 @@
 package entities;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Etablissement 
 {
     private int id;
     private String nom;
     private String type;
-
+    private ArrayList<Tag> tag = new ArrayList<>();
     private int partenaire;
 
     public Etablissement(int id, String nom, String type, int partenaire, int responsable) {
@@ -52,7 +51,10 @@ public class Etablissement
         this.type = type;
         this.responsable = responsable;
     }
-    public Etablissement(){}
+    public Etablissement()
+    {
+        
+    }
 
     public int getResponsable() {
         return responsable;
@@ -307,6 +309,22 @@ public class Etablissement
     public void setResponsable(int responsable) 
     {
         this.responsable = responsable;
+    }
+
+    /**
+     * @return the tag
+     */
+    public ArrayList<Tag> getTag() 
+    {
+        return tag;
+    }
+
+    /**
+     * @param tag the tag to set
+     */
+    public void setTag(ArrayList<Tag> tag) 
+    {
+        this.tag = tag;
     }
 
     

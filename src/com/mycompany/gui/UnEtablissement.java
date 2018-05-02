@@ -1,6 +1,7 @@
 package com.mycompany.gui;
 
 import com.codename1.components.SpanLabel;
+import com.codename1.ui.Button;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Font;
@@ -82,7 +83,19 @@ public class UnEtablissement
         SpanLabel L14 = new SpanLabel("Site Web/Blog : " + L13.getText());
         Label L15 = new Label(Integer.toString(E.getBudgetmoyen()));
         Label L16 = new Label("Budget Moyen : " + L15.getText() + " DT");
-        F.add(C0); F.add(C1); F.add(L2).add(L10).add(L12).add(L14).add(L16); F.add(L4);
+        Container C2 = new Container(new FlowLayout(Component.CENTER, Component.CENTER));
+        Button B2 = new Button("Tags");
+        B2.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent evt) 
+            {
+                Tags T = new Tags(E);
+                T.getF().show();
+            }
+        });
+        C2.add(B2);
+        F.add(C0); F.add(C1).add(C2); F.add(L2).add(L10).add(L12).add(L14).add(L16); F.add(L4);
     }
     
     public Form getF() 
