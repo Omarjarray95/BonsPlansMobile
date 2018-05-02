@@ -124,6 +124,15 @@ public class HomeForm
                 if (i == j)
                 {
                     Button B4 = new Button("Afficher Tout");
+                    B4.addActionListener(new ActionListener() 
+                    {
+                        @Override
+                        public void actionPerformed(ActionEvent evt) 
+                        {
+                            Recherches R = new Recherches(ALE);
+                            R.getF().show();
+                        }
+                    });
                     C.add(B4);
                     break;
                 }
